@@ -26,6 +26,15 @@ a{color:var(--accent);text-decoration:none}
 .ql:hover{filter:brightness(1.35)}
 .ql.active{background:rgba(59,130,246,.18);color:#fff}
 #nav{flex:1;overflow-y:auto;padding:4px 0 24px}
+/* slim scrollbars */
+#nav{scrollbar-width:thin;scrollbar-color:rgba(148,163,184,.30) transparent}
+#main{scrollbar-width:thin;scrollbar-color:rgba(100,116,139,.30) transparent}
+#nav::-webkit-scrollbar,#main::-webkit-scrollbar{width:8px;height:8px}
+#nav::-webkit-scrollbar-track,#main::-webkit-scrollbar-track{background:transparent}
+#nav::-webkit-scrollbar-thumb{background:rgba(148,163,184,.28);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+#nav:hover::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);background-clip:padding-box}
+#main::-webkit-scrollbar-thumb{background:rgba(100,116,139,.25);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+#main:hover::-webkit-scrollbar-thumb{background:rgba(100,116,139,.45);background-clip:padding-box}
 .cat{margin-top:14px}
 .cat-head{display:flex;align-items:center;gap:8px;padding:6px 18px;font:700 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--sidebar-sub)}
 .cat-head>span:nth-child(2){flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -130,9 +139,9 @@ h2.editing-title{outline:2px dashed var(--accent);outline-offset:4px;border-radi
 .doc-wrap{display:flex;gap:28px;align-items:flex-start}
 .doc-body{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 30px;font-size:14.5px;line-height:1.7;color:#334155}
 .doc-body img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);margin:10px 0;display:block}
-.doc-body h1{font-size:16px;font-weight:700;color:var(--ink2);margin:22px 0 8px}
-.doc-body h2{font-size:15.5px;font-weight:700;color:var(--ink2);margin:20px 0 8px}
-.doc-body h3{font-size:15px;font-weight:700;color:var(--ink2);margin:18px 0 6px}
+.doc-body h1{font-size:15px;font-weight:700;color:var(--ink2);margin:16px 0 6px}
+.doc-body h2{font-size:15px;font-weight:700;color:var(--ink2);margin:14px 0 6px}
+.doc-body h3{font-size:14.5px;font-weight:700;color:var(--ink2);margin:12px 0 4px}
 .doc-body p{margin:11px 0}
 .doc-body ul,.doc-body ol{margin:11px 0;padding-left:26px}
 .doc-body li{margin:5px 0}

@@ -8,21 +8,23 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header id="topbar">
-  <div class="tb-brand"><div class="logo">&#128218;</div><div><span class="tb-title">CSA Operation Guide</span><span id="brandsub" class="tb-sub"></span></div></div>
-  <div class="tb-search"><span class="tb-srch-ico">&#128269;</span><input id="search" type="search" placeholder="Search guides…" autocomplete="off"><span class="tb-kbd">/</span></div>
-  <div class="tb-actions"><div id="adminBar"></div></div>
-</header>
 <div id="layout">
   <aside id="sidebar">
+    <div class="brand" id="brandHome"><div class="logo">C</div><div class="brand-txt"><span class="tb-title">CSA Operation Guide</span><span id="brandsub" class="tb-sub"></span></div></div>
     <div class="quicklinks">
-      <span class="ql" data-view="home">&#127968; Home</span>
+      <span class="ql" data-view="home">Home</span>
       <span class="ql" data-view="fav">&#9733; Favorites</span>
-      <span class="ql" data-view="recent">&#128336; Recent</span>
+      <span class="ql" data-view="recent">Recent</span>
     </div>
     <nav id="nav"></nav>
   </aside>
-  <main id="main"><div class="container" id="content"></div></main>
+  <div id="maincol">
+    <header id="topbar">
+      <div class="tb-search"><span class="tb-srch-ico">&#8981;</span><input id="search" type="search" placeholder="Search guides…" autocomplete="off"><span class="tb-kbd">/</span></div>
+      <div class="tb-right"><span class="tb-int">CSA · Internal</span><div id="adminBar"></div></div>
+    </header>
+    <main id="main"><div class="container" id="content"></div></main>
+  </div>
 </div>
 <button id="toTop" title="Back to top">&#8593;</button>
 <script src="data.js"></script>

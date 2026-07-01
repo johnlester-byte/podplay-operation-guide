@@ -77,6 +77,7 @@ function buildNav(){
 }
 function setActive(id){document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.id==id));}
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function monoTitle(s){return (s||'').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();}
 
 // ---- highlight (regex-free) ----
 // Wraps the searched words in <mark> tags. Done by hand (not regex) so we never
@@ -106,19 +107,16 @@ function setQL(v){document.querySelectorAll('.ql').forEach(q=>q.classList.toggle
 
 function home(){
   setActive(-1);setQL('home');main.scrollTop=0;
-  let h='<div class="banner"><h2>CSA Operation Guide</h2><p>Internal support and setup guides. Search at the top, or jump into a section below.</p><div class="banner-tags">';
-  ORDER.forEach(cat=>{h+='<span class="btag" data-cat="'+esc(cat)+'">'+(CATMETA[cat]?CATMETA[cat].icon:'')+' '+esc(cat)+'</span>';});
-  h+='</div></div>';
+  let h='<div class="hc-eyebrow">Help Center</div><h1 class="hc-title">How can we help?</h1><p class="hc-sub">Internal support & setup guides. Search above, or jump into a section.</p>';
   const vr=recent.filter(id=>DOCS[id]&&!DOCS[id].deleted&&(admin||!DOCS[id].archived));
-  if(vr.length){h+='<div class="section-label">Recently Viewed</div><div class="mini">';
-    vr.forEach(id=>{const d=DOCS[id];h+='<div class="m" data-id="'+id+'"><span class="pill" style="background:'+(CATMETA[d.cat].color)+'"></span>'+esc(d.title)+'</div>';});h+='</div>';}
-  h+='<div class="section-label">Categories</div><div class="card-grid">';
+  if(vr.length){h+='<div class="section-label">Recently Viewed</div><div class="rv-grid">';
+    vr.forEach(id=>{const d=DOCS[id];const m=CATMETA[d.cat]||{};h+='<div class="rv-card" data-id="'+id+'"><span class="mono-chip" style="background:'+(m.tint||'#eef')+';color:'+(m.color||'#333')+'">'+monoTitle(d.title)+'</span><span class="rv-title">'+esc(d.title)+'</span></div>';});h+='</div>';}
+  h+='<div class="section-label">Browse by Category</div><div class="cat-grid">';
   ORDER.forEach(cat=>{const m=CATMETA[cat]||{};const items=vis(byCat[cat]||[]);if(!items.length)return;
-    h+='<div class="card" data-cat="'+esc(cat)+'" style="--c:'+(m.color)+'"><div class="ico">'+m.icon+'</div><h3>'+esc(cat)+'</h3><p>'+esc(m.desc)+'</p><span class="tag" style="color:'+m.color+'">'+items.length+' guides &rarr;</span></div>';});
+    h+='<div class="cat-card" data-cat="'+esc(cat)+'" style="border-top-color:'+(m.color||'#2563eb')+'"><div class="cc-top"><span class="mono-chip lg" style="background:'+(m.tint||'#eef')+';color:'+(m.color||'#333')+'">'+(m.mono||monoTitle(cat))+'</span><span class="cc-count">'+items.length+' guides</span></div><h3>'+esc(cat)+'</h3><p>'+esc(m.desc||'')+'</p></div>';});
   h+='</div>';content.innerHTML=h;
-  content.querySelectorAll('.m[data-id]').forEach(e=>e.onclick=()=>go('g-'+e.dataset.id));
-  content.querySelectorAll('.card[data-cat]').forEach(e=>e.onclick=()=>showCat(e.dataset.cat));
-  content.querySelectorAll('.btag[data-cat]').forEach(e=>e.onclick=()=>showCat(e.dataset.cat));
+  content.querySelectorAll('.rv-card[data-id]').forEach(e=>e.onclick=()=>go('g-'+e.dataset.id));
+  content.querySelectorAll('.cat-card[data-cat]').forEach(e=>e.onclick=()=>showCat(e.dataset.cat));
 }
 function showCat(cat){
   setActive(-1);main.scrollTop=0;const items=vis(byCat[cat]||[]);const m=CATMETA[cat]||{};
@@ -155,7 +153,7 @@ function openDoc(id,terms){
   let h='<div class="crumb"><span onclick="go(\'home\')">Home</span> &rsaquo; <span onclick="showCat(\''+esc(d.cat).replace(/'/g,"")+'\')">'+esc(d.cat)+'</span></div>';
   h+=(admin&&d.archived)?'<div class="arch-note">&#128584; This guide is <b>hidden</b> from public viewers. Click <b>Unhide</b> to show it again.</div>':'';
   h+='<div class="doc-head"><h2 id="docTitle">'+esc(d.title)+'</h2></div>';
-  h+='<div class="metarow"><span class="tagchip" style="background:'+m.color+'">'+esc(d.cat)+'</span>'+
+  h+='<div class="metarow"><span class="tagchip" style="background:'+(m.tint||m.color)+';color:'+m.color+'">'+esc(d.cat)+'</span>'+
      '<span>Updated '+fmtDate(d.updated)+'</span>'+(d.steps?'<span>'+d.steps+' steps</span>':'')+
      '<button class="abtn fav-star" id="favBtn">'+(isFav(id)?'&#9733; Saved':'&#9734; Save')+'</button>'+
      '<button class="abtn" onclick="window.print()">&#128424; Print / PDF</button>'+
@@ -261,6 +259,7 @@ window.addEventListener('hashchange',()=>route_apply((location.hash||'#home').sl
 
 // quicklinks
 document.querySelectorAll('.ql').forEach(q=>q.onclick=()=>{if(q.dataset.view==='new')return newGuideFlow();go(q.dataset.view);});
+const brandHome=document.getElementById('brandHome');if(brandHome)brandHome.onclick=()=>go('home');
 
 // back to top
 main.addEventListener('scroll',()=>{document.getElementById('toTop').classList.toggle('show',main.scrollTop>400);});
